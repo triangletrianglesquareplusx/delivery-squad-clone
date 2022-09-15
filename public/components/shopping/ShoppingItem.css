@@ -1,0 +1,12 @@
+.item-image-wrappper {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.54), rgba(0, 0, 0, 0.54)),
+    url("https://s3-alpha-sig.figma.com/img/39cd/aaf0/b372de53c3591abdbba07ad721c7a558?Expires=1661126400&Signature=ISV1tCn0J8JS3giLUkESY99sn1zLBCg2KOTOXEsVfkuW6MPmZdHbO1OZ02c-MKZ~uokM62ePO-XQrL7P86Aer9uuzlH9JAak1YPFMAVfGJO5-AewiLi~SzU~W8sA6ophlgZ4Mb0SvNQqpDGaSMEqpmk3puBsAUFWheTKHfDVnWgk3ZsImYywwfNWv45Wp7USE-m83K-4iM~0Y91U-r6p-7UPsl--HqIR0A2uGY70r8982r4f1LzR18eIGE3fMFr~652~fKlDNH3IjbrLIiV7CY1f0ImQcyvQLnrXiANBDJlBGgIAv8y8j24MpQaKc7Qz1xsEgbM3n-FfRrvrjwdflw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA");
+  background-position: top;
+  box-shadow: 0px 0px 80px rgba(0, 0, 0, 0.11),
+    0px 11px 46.8519px rgba(0, 0, 0, 0.01),
+    0px 2px 25.4815px rgba(0, 0, 0, 0.04), 0px 20px 13px rgba(0, 0, 0, 0.01),
+    0px 4px 6.51852px rgba(0, 0, 0, 0.00785185),
+    0px 1.85185px 3.14815px rgba(0, 0, 0, 0.00481481);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+}
