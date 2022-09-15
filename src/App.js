@@ -15,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React and test whether Vercel will update.
+          Learn React and test whether Vercel will update, perhaps not.
         </a>
       </header>
     </div>
