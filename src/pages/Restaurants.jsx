@@ -9,46 +9,113 @@ import { collection, getDocs } from "firebase/firestore";
 
 function Restaurants(props) {
   const [restaurants, setRestaurants] = useState([]);
-  const [sorted, setSorted] = useState({ sorted: "id", reversed: false });
+  const [firstOptions, setFirstOptions] = useState(false);
+  const [secondOptions, setSecondOptions] = useState(false);
+  const [thirdOptions, setThirdOptions] = useState(false);
+  const [sorted, setSorted] = useState(restaurants);
   const restaurantsCollectionRef = collection(db, "restaurants");
 
-  const sortByRating = () => {
-    setSorted({ sorted: "rating", reversed: !sorted.reversed });
+  const sortByRating = (e) => {
+    
     const restosCopy = [...restaurants];
-    restosCopy.sort((restoA, restoB) => {
-      if (sorted.reversed) {
-        return restoA.rating - restoB.rating;
+    
+      if (e.target.value == "Default") {
+        restosCopy.sort((restoA, restoB) => {
+          return restoA.position - restoB.position;
+        });
       }
-      return restoB.rating - restoA.rating;
-    });
+
+      else if(e.target.value == "Ascending") {
+        restosCopy.sort((restoA, restoB) => {
+          return restoA.rating - restoB.rating;
+        });
+      }
+
+      else if(e.target.value == "Descending") {
+        restosCopy.sort((restoA, restoB) => {
+          return restoB.rating - restoA.rating;
+        });
+      };
+
     setRestaurants(restosCopy);
   };
 
-  const sortByDistance = () => {
-    setSorted({ sorted: "distance", reversed: !sorted.reversed });
+  const sortByReservation = (e) => {
+    
     const restosCopy = [...restaurants];
-    restosCopy.sort((restoA, restoB) => {
-      if (sorted.reversed) {
-        return restoA.distance - restoB.distance;
+    
+      if (e.target.value == "Default") {
+        restosCopy.sort((restoA, restoB) => {
+          return restoA.position - restoB.position;
+        });
       }
-      return restoB.distance - restoA.distance;
-    });
+
+      else if(e.target.value == "Ascending") {
+        restosCopy.sort((restoA, restoB) => {
+          return restoA.reservation - restoB.reservation;
+        });
+      }
+
+      else if(e.target.value == "Descending") {
+        restosCopy.sort((restoA, restoB) => {
+          return restoB.reservation - restoA.reservation;
+        });
+      };
+
     setRestaurants(restosCopy);
+  };
+
+  const sortByDistance = (e) => {
+    
+    const restosCopy = [...restaurants];
+    
+      if (e.target.value == "Default") {
+        restosCopy.sort((restoA, restoB) => {
+          return restoA.position - restoB.position;
+        });
+      }
+
+      else if(e.target.value == "Ascending") {
+        restosCopy.sort((restoA, restoB) => {
+          return restoA.distance - restoB.distance;
+        });
+      }
+
+      else if(e.target.value == "Descending") {
+        restosCopy.sort((restoA, restoB) => {
+          return restoB.distance - restoA.distance;
+        });
+      };
+
+    setRestaurants(restosCopy);
+  };
+  
+
+  const handleClick = () => {
+    setFirstOptions(!firstOptions);
+  };
+
+  const handleClick2 = () => {
+    setSecondOptions(!secondOptions);
+  };
+  
+  const handleClick3 = () => {
+    setThirdOptions(!thirdOptions);
+  };
+
+  const getRestaurants = async () => {
+    const data = await getDocs(restaurantsCollectionRef);
+    setRestaurants(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
   };
 
   useEffect(() => {
-    const getRestaurants = async () => {
-      const data = await getDocs(restaurantsCollectionRef);
-      setRestaurants(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-
     getRestaurants();
-  }, [restaurantsCollectionRef]);
+  }, []);
 
   return (
     <>
       <div className="flex flex-wrap items-center justify-center mt-7 filtersort-container">
-        <div className="flex flex-wrap justify-start mr-16 bg-gray-200 rounded-lg shadow-xl h-9 filter-container w-72">
+        <div className="flex flex-wrap justify-start mr-16 bg-gray-200 rounded-lg shadow-xl h-9 filter-container w-80">
           <div className="flex flex-wrap items-center justify-center w-24 bg-purple-900 rounded-lg filterBy h-9">
             <img
               src={filterIcon}
@@ -72,7 +139,7 @@ function Restaurants(props) {
                   htmlFor="type-checkbox-list"
                   className="py-2 ml-2 text-sm font-semibold"
                 >
-                  Restaurant
+                  Type
                 </label>
               </div>
             </li>
@@ -88,7 +155,7 @@ function Restaurants(props) {
                   htmlFor="type-checkbox-list"
                   className="py-2 ml-2 text-sm font-semibold"
                 >
-                  Bar
+                  Atmosphere
                 </label>
               </div>
             </li>
@@ -106,22 +173,32 @@ function Restaurants(props) {
               Sort By
             </p>
           </div>
+
           <div className="flex flex-wrap items-center flex-auto sort-categories justify-evenly">
-            <button
-              onClick={sortByRating}
-              className="text-sm font-semibold"
-              value="rating"
-            >
-              Ratings
-            </button>
-            <button className="text-sm font-semibold">Cost</button>
-            <button
-              onClick={sortByDistance}
-              className="text-sm font-semibold"
-              value="distance"
-            >
-              Distance
-            </button>
+            <button onClick={handleClick} className="relative p-2 text-sm font-semibold rounded-md hover:bg-purple-900 hover:text-white" value="rating" type="button">Ratings</button>
+              {firstOptions && (<div className="absolute z-10 mt-2 bg-white rounded-md shadow-lg w-50 right-1/3 top-96 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                <div className="py-1 bg-gray-200" role="none">
+                  <button onClick={sortByRating} value="Default" className="block px-4 py-2 text-sm font-semibold text-gray-700 rounded-md hover:bg-purple-900 hover:text-white" role="menuitem" id="menu-item-0">Default</button>
+                  <button onClick={sortByRating} value="Ascending" className="block px-4 py-2 text-sm font-semibold text-gray-700 rounded-md hover:bg-purple-900 hover:text-white" role="menuitem" id="menu-item-1">Ascending</button>
+                  <button onClick={sortByRating} value="Descending" className="block px-4 py-2 text-sm font-semibold text-gray-700 rounded-md hover:bg-purple-900 hover:text-white" role="menuitem" id="menu-item-2">Descending</button>
+                </div>
+              </div>)}
+            <button onClick={handleClick2} className="relative p-2 text-sm font-semibold rounded-md hover:bg-purple-900 hover:text-white" type="button">Res. №</button>
+              {secondOptions && (<div className="absolute z-10 mt-2 bg-white rounded-md shadow-lg w-50 right-96 top-96 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                <div className="py-1 bg-gray-200" role="none">
+                  <button onClick={sortByReservation} value="Default" className="block px-4 py-2 text-sm font-semibold text-gray-700 rounded-md hover:bg-purple-900 hover:text-white" role="menuitem" id="menu-item-0">Default</button>
+                  <button onClick={sortByReservation} value="Ascending" className="block px-4 py-2 text-sm font-semibold text-gray-700 rounded-md hover:bg-purple-900 hover:text-white" role="menuitem" id="menu-item-1">Ascending</button>
+                  <button onClick={sortByReservation} value="Descending" className="block px-4 py-2 text-sm font-semibold text-gray-700 rounded-md hover:bg-purple-900 hover:text-white" role="menuitem" id="menu-item-2">Descending</button>
+                </div>
+              </div>)}
+            <button onClick={handleClick3} className="relative p-2 text-sm font-semibold rounded-md hover:bg-purple-900 hover:text-white" value="distance">Distance</button>
+              {thirdOptions && (<div className="absolute z-10 mt-2 bg-white rounded-md shadow-lg w-50 right-96 top-96 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabIndex="-1">
+                <div className="py-1 bg-gray-200" role="none">
+                  <button onClick={sortByDistance} value="Default" className="block px-4 py-2 text-sm font-semibold text-gray-700 rounded-md hover:bg-purple-900 hover:text-white" role="menuitem" id="menu-item-0">Default</button>
+                  <button onClick={sortByDistance} value="Ascending" className="block px-4 py-2 text-sm font-semibold text-gray-700 rounded-md hover:bg-purple-900 hover:text-white" role="menuitem" id="menu-item-1">Ascending</button>
+                  <button onClick={sortByDistance} value="Descending" className="block px-4 py-2 text-sm font-semibold text-gray-700 rounded-md hover:bg-purple-900 hover:text-white" role="menuitem" id="menu-item-2">Descending</button>
+                </div>
+            </div>)}
           </div>
         </div>
       </div>
@@ -134,6 +211,7 @@ function Restaurants(props) {
             reservation={resto.reservation}
             source={resto.imgUrl}
             distance={resto.distance}
+            position={resto.position}
           />
         ))}
       </div>
