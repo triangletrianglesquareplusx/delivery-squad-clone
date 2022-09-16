@@ -15,7 +15,10 @@ function LoginPage() {
 
   const onSubmit = (data) => {
     signInWithEmailAndPassword(auth, data.email, data.passwordRequired)
-      .then((auth) => navigate("/admin"))
+      .then((auth) => {
+        console.log(auth.user.email);
+        navigate("/admin");
+      })
       .catch((error) => {
         console.log(error);
       });
