@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Articles from "./pages/Articles";
 import SingleArticle from "./pages/SingleArticle";
 import RestaurantsFullPage from "./pages/RestaurantsFullPage";
@@ -11,8 +11,7 @@ import FAQ from "./pages/FAQ";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import AdminPage from "./pages/AdminPage";
-//import Hackathon from "./Pages/Hackathon";
-//import Tables from "./pages/Tables_Admin";
+import PrivateRoutes from "./utilities/PrivateRoutes";
 
 function App() {
   return (
@@ -21,10 +20,13 @@ function App() {
 
       <Routes>
         {/*<Route path="/" element={<Hackathon />}/>*/}
-        <Route path="/" element={<LoginPage />} />
+        <Route element={<PrivateRoutes />}>
+          <Route path="/admin" />
+        </Route>
+        <Route path="/" element={<Home />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/register" element={<RegistrationPage />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/articles" element={<Articles />} />
         <Route path="/articles/:slug" element={<SingleArticle />} />
         <Route path="/restaurants" element={<RestaurantsFullPage />} />
