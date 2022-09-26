@@ -41,6 +41,23 @@ module.exports = {
       boxShadow: {
         box: "0 0 24px 1px rgba(0,0,0,0.15)",
       },
+      spacing: {
+        custom: '10%'
+      },
+      backgroundImage: {
+        'search': "url('./assets/articles-search.svg')",
+        'filter': "url('./assets/articles-filter.svg')",
+        'sort': "url('./assets/articles-sort.svg')",
+      },      
+      backgroundPosition: {
+        'left-1': 'left 1rem center',
+      },
+      minWidth: {
+        '1/2': '50%',
+      },
+      minHeight: {
+        'box': '8rem',
+      }
     },
   },
   plugins: [],
