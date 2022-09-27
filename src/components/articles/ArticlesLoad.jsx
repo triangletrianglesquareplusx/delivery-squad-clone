@@ -27,7 +27,7 @@ export default function ArticlesLoad() {
     
       return () => loadArticles ();
     }, [loading]);
-  
+    
     if (loading) {
       return (        
         <div className="container mx-auto my-8 text-center">

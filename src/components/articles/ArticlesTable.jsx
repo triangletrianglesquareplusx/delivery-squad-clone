@@ -4,6 +4,7 @@ import { collection, onSnapshot, query, deleteDoc, doc } from "firebase/firestor
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import ArticleEdit from "./ArticleEdit";
 import ArticleCreate from "./ArticleCreate";
+import { TbArrowsDownUp } from "react-icons/tb";
 
 export default function ArticlesTable() {
     
@@ -13,6 +14,10 @@ export default function ArticlesTable() {
     const [articles, setArticles] = useState([]);
     const [editbox, setEditbox] = useState("");
     const [createbox, setCreatebox] = useState(false);
+    const [sort, setSortBy] = useState("");
+    const [reverseSort, setReverseSort] = useState(false);
+    const [search, searchBy] = useState("");
+    const [updated, setUpdated] = useState(0);
   
     useEffect(() => {
       const getArticlesFromFirebase = [];
@@ -29,6 +34,11 @@ export default function ArticlesTable() {
     
       return () => loadArticles ();
     }, [loading]);
+
+    useEffect(()=>{
+      setLoading(true);
+      console.log(updated);
+    }, [updated]);
   
     if (loading) {
       return (     
@@ -47,20 +57,48 @@ export default function ArticlesTable() {
         });
       });
     };
+
+    function sortTable(e){
+      if (e.target.value !== sort) {
+        setSortBy(e.target.value); 
+        setReverseSort(false);
+      }
+      else {
+        setReverseSort(!reverseSort);
+      }
+    }
+    
     
     return (           
-            <div className="container mx-auto mb-8">
-            <table className="block">
+          <div className="container mx-auto mb-8 px-4 overflow-x-auto">
+            <div className="overflow-x-auto">
+            <input className="mb-8 border border-solid border-gray-400 py-3 pl-12 pr-4 w-96 max-w-full bg-search bg-no-repeat bg-left-1 text-sm" placeholder="Search" onKeyPress={event => {if (event.key === 'Enter') {searchBy(event.target.value);}}}/>
+            <table className="block w-[600px] md:w-auto">
                 <thead className="block">
                     <tr className="grid grid-cols-4 text-left">
-                            <th className="p-2 border border-solid border-gray-300 border-b-0 border-r-0 text-center">Image</th>
-                            <th className="p-2 border border-solid border-gray-300 border-b-0 border-r-0 text-center">Title</th>
-                            <th className="p-2 border border-solid border-gray-300 border-b-0 text-center">Description</th>
+                            <th className="p-2 border border-solid border-gray-300 border-b-0 border-r-0 text-center"><button className="flex w-full items-center justify-center hover:text-coral transition-all" value="Image" onClick={sortTable}>Image <TbArrowsDownUp className="ml-2"/></button></th>
+                            <th className="p-2 border border-solid border-gray-300 border-b-0 border-r-0 text-center"><button  className="flex w-full items-center justify-center hover:text-coral transition-all" value="Title" onClick={sortTable}>Title  <TbArrowsDownUp className="ml-2"/></button></th>
+                            <th className="p-2 border border-solid border-gray-300 border-b-0 text-center"><button  className="flex w-full items-center justify-center hover:text-coral transition-all" value="Description" onClick={sortTable}>Description  <TbArrowsDownUp className="ml-2"/></button></th>
                             <th className="p-2 border border-solid border-gray-300 border-b-0 text-center">Edit/Delete</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {articles.map(article => {
+                    {articles.filter(result => {
+                      if (search === "") {return result;}
+                      else return (result.Title.toLowerCase().includes(search.toLowerCase()) || result.Description.toLowerCase().includes(search.toLowerCase()))})
+                      .sort(function(a, b) {
+                        if(reverseSort===false) {
+                          if(a[sort] < b[sort]) return -1;
+                             if(a[sort] > b[sort]) return 1;
+                             return 0;
+                            }
+                          else {
+                            if(a[sort] > b[sort]) return -1;
+                               if(a[sort] < b[sort]) return 1;
+                               return 0;
+                              }
+                          }
+                      ).map(article => {
                         return(<>
                         <tr className="grid grid-cols-4 text-left" key={article.id}>
                             {article.Image===""?
@@ -86,13 +124,13 @@ export default function ArticlesTable() {
                         {editbox === article.key && 
                           <tr className="grid grid-cols-1">
                             <td className="p-2 border border-solid border-gray-300 border-r-0 break-all text-sm">
-                              <ArticleEdit article={article} setEditbox={setEditbox}/>
+                              <ArticleEdit article={article} setEditbox={setEditbox} setUpdated={setUpdated} updated={updated}/>
                             </td>
                           </tr>}
                         </>)
                     })}
             </tbody>
-            </table>
+            </table></div>
            
             {createbox === true ? 
               <ArticleCreate setCreatebox={setCreatebox}/> :

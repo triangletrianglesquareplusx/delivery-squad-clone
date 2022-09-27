@@ -28,7 +28,7 @@ export default function ArticleCreate({setCreatebox}) {
             <p className="mt-8 mb-2 font-bold">Title</p>
             <input className="border border-solid border-gray-400 p-1 w-64 max-w-full" type="text" onChange={event => {setTitle(event.target.value);}}/>
             <p className="mt-8 mb-2 font-bold">Description</p>
-            <textarea className="border border-solid border-gray-400 py-1 px-2 min-w-1/2 max-w-full min-h-box resize [word-break:break-word]" type="text" onChange={event => setDecsription(event.target.value)}/>
+            <textarea className="border border-solid border-gray-400 py-1 px-2 min-w-full md:min-w-1/2 max-w-full min-h-box resize [word-break:break-word]" type="text" onChange={event => setDecsription(event.target.value)}/>
             <p className="mt-8 mb-2 font-bold">Slug</p>
             <input className="mb-8 border border-solid border-gray-400 p-1 w-64 max-w-full" type="text" onChange={event => {setSlug(event.target.value);}}/>
             <br/>
