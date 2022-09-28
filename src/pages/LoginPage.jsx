@@ -1,27 +1,55 @@
-import React from "react";
 import { HiLightBulb } from "react-icons/hi";
 import { useForm } from "react-hook-form";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import ControlButton from "../utilities/ControlButton";
+//import { signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import auth from "../firebase/firebase-config";
-
+import { loginUser } from "../features/authSlice";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 function LoginPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const schema = yup.object().shape({
+    email: yup.string().email().required("An email is mandatory!"),
+    passwordRequired: yup
+      .number("You must have ints in the pass!")
+      .required("A password is mandatory!"),
+  });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(schema) });
 
-  const onSubmit = (data) => {
-    signInWithEmailAndPassword(auth, data.email, data.passwordRequired)
-      .then((auth) => {
-        console.log(auth.user.email);
+  const onSubmit = async (data) => {
+    //currently the function here works synchronously!!!
+    // signInWithEmailAndPassword(auth, data.email, data.passwordRequired)
+    //   .then((auth) => {
+    //     console.log(auth.user.email);
+    //     navigate("/admin");
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
+    const authObj = {
+      auth: auth,
+      emailUse: data.email,
+      pass: data.passwordRequired,
+    };
+    //console.log(authObj); this auth obj does work!!!
+
+    dispatch(loginUser(authObj)).then((result) => {
+      console.log(result);
+      if (result.type === "auth/login/fulfilled") {
         navigate("/admin");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      } else {
+        navigate("/error");
+      }
+    });
   };
 
   return (
@@ -56,7 +84,11 @@ function LoginPage() {
           <p className="text-xs text-regalBlue">Not a friend yet? Register!</p>
         </Link>
 
-        <input type="submit" value="Login" />
+        {/*<input type="submit" value="Login" />*/}
+        <ControlButton
+          name="Login"
+          className="px-5 py-1 text-white rounded-md shadow-lg bg-regalBlue"
+        />
       </form>
     </div>
   );

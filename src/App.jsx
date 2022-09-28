@@ -11,6 +11,7 @@ import FAQ from "./pages/FAQ";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
 import AdminPage from "./pages/AdminPage";
+import ErrorPage from "./pages/ErrorPage";
 import PrivateRoutes from "./utilities/PrivateRoutes";
 
 function App() {
@@ -21,10 +22,9 @@ function App() {
       <Routes>
         {/*<Route path="/" element={<Hackathon />}/>*/}
         <Route element={<PrivateRoutes />}>
-          <Route path="/admin" />
+          <Route path="/admin" element={<AdminPage />} />
         </Route>
         <Route path="/" element={<Home />} />
-        <Route path="/admin" element={<AdminPage />} />
         <Route path="/register" element={<RegistrationPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/articles" element={<Articles />} />
@@ -32,6 +32,7 @@ function App() {
         <Route path="/restaurants" element={<RestaurantsFullPage />} />
         <Route path="/shopping" element={<Shopping />} />
         <Route path="/faq" element={<FAQ />} />
+        <Route path="/error" element={<ErrorPage />} />
       </Routes>
       <Footer />
     </>
