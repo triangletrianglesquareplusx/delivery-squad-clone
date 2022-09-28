@@ -1,8 +1,24 @@
 import ControlButton from "../utilities/ControlButton";
 import React from "react";
 import { MdLocationPin } from "react-icons/md";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { getAuth } from "firebase/auth";
+import { clearCurrentUser } from "../features/authSlice";
 export default function Header() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const auth = getAuth();
+  const { userEmail } = useSelector((state) => state.auth);
+  const logOut = () => {
+    auth.signOut();
+    dispatch(clearCurrentUser());
+    navigate("/");
+  };
+
+  const logIn = () => {
+    navigate("/login");
+  };
   return (
     <div className={`flex justify-between items center p-3 w-10/12 mx-auto`}>
       <div
@@ -30,16 +46,26 @@ export default function Header() {
             className={`hidden md:inline md:px-6 md:py-3 md:font-medium hover:text-regalBlue`}
           />
         </Link>
-        <ControlButton
-          name={"Hackatons"}
-          className={`hidden md:inline md:px-6 md:py-3 md:font-medium hover:text-regalBlue`}
-        />
         <Link to="/faq">
           <ControlButton
             name={"FAQ"}
             className={`hidden md:inline md:px-6 md:py-3 md:font-medium hover:text-regalBlue`}
           />
         </Link>
+
+        {userEmail ? (
+          <ControlButton
+            name={"Logout"}
+            className={`hidden md:inline md:px-6 md:py-3 md:font-medium hover:text-regalBlue`}
+            onClick={logOut}
+          />
+        ) : (
+          <ControlButton
+            name={"Login"}
+            className={`hidden md:inline md:px-6 md:py-3 md:font-medium hover:text-regalBlue`}
+            onClick={logIn}
+          />
+        )}
         <ControlButton
           name={"Download App"}
           className={`px-6 py-2 whitespace-no-wrap bg-primaryRed rounded-lg shadow-md text-white text-sm font-medium font-inter`}

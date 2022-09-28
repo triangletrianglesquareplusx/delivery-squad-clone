@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { db } from "../../firebase/firebase-config";
 import { collection, onSnapshot, query } from "firebase/firestore";
-import ArticlesTable from "./ArticlesTable";
 
 export default function ArticlesLoad() {
     const [search, searchBy] = useState("");
@@ -27,7 +26,7 @@ export default function ArticlesLoad() {
     
       return () => loadArticles ();
     }, [loading]);
-    
+
     if (loading) {
       return (        
         <div className="container mx-auto my-8 text-center">
@@ -124,7 +123,6 @@ export default function ArticlesLoad() {
                     </div>)
                 })}
             </div>
-            <ArticlesTable/>
         </>
     )
 }

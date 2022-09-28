@@ -2,7 +2,7 @@ import { useState } from "react"
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase-config";
 
-export default function ArticleCreate({setCreatebox}) {
+export default function ArticleCreate({setCreatebox, setUpdated, updated}) {
 
     const [image, setImage] = useState();
     const [title, setTitle] = useState();
@@ -17,7 +17,8 @@ export default function ArticleCreate({setCreatebox}) {
             Description: description,
             slug: slug
             });
-            setCreatebox(false)
+            setCreatebox(false);
+            setUpdated(updated + 1);
     }
 
     return(

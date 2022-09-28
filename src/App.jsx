@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route, Outlet } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Articles from "./pages/Articles";
 import SingleArticle from "./pages/SingleArticle";
 import RestaurantsFullPage from "./pages/RestaurantsFullPage";
@@ -10,27 +10,41 @@ import Shopping from "./components/shopping/Shopping";
 import FAQ from "./pages/FAQ";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
-import AdminPage from "./pages/AdminPage";
-//import Hackathon from "./Pages/Hackathon";
-//import Tables from "./pages/Tables_Admin";
-
+import AdminPage from "./pages/AdminPage/AdminPage";
+import ErrorPage from "./pages/ErrorPage";
+import PrivateRoutes from "./utilities/PrivateRoutes";
+import { AnimatePresence } from "framer-motion";
+import DangerZone from "./pages/AdminPage/DangerZone";
+import ArticlesAdministrationPage from "./pages/AdminPage/ArticlesAdministrationPage";
+import UserProfile from "./pages/AdminPage/UserProfile";
 function App() {
+  const location = useLocation();
   return (
     <>
       <Header />
-
-      <Routes>
-        {/*<Route path="/" element={<Hackathon />}/>*/}
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/register" element={<RegistrationPage />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/articles" element={<Articles />} />
-        <Route path="/articles/:slug" element={<SingleArticle />} />
-        <Route path="/restaurants" element={<RestaurantsFullPage />} />
-        <Route path="/shopping" element={<Shopping />} />
-        <Route path="/faq" element={<FAQ />} />
-      </Routes>
+      <AnimatePresence exitBeforeEnter>
+        <Routes key={location.pathname} location={location}>
+          <Route element={<PrivateRoutes />}>
+            <Route path="/admin" element={<AdminPage />}>
+              <Route path="/admin/userprofile" element={<UserProfile />} />
+              <Route
+                path="/admin/articlescontrol"
+                element={<ArticlesAdministrationPage />}
+              />
+              <Route path="/admin/dangerzone" element={<DangerZone />} />
+            </Route>
+          </Route>
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<RegistrationPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/articles" element={<Articles />} />
+          <Route path="/articles/:slug" element={<SingleArticle />} />
+          <Route path="/restaurants" element={<RestaurantsFullPage />} />
+          <Route path="/shopping" element={<Shopping />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/error" element={<ErrorPage />} />
+        </Routes>
+      </AnimatePresence>
       <Footer />
     </>
   );

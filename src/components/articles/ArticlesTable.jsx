@@ -37,7 +37,6 @@ export default function ArticlesTable() {
 
     useEffect(()=>{
       setLoading(true);
-      console.log(updated);
     }, [updated]);
   
     if (loading) {
@@ -67,18 +66,16 @@ export default function ArticlesTable() {
         setReverseSort(!reverseSort);
       }
     }
-    
-    
+
     return (           
-          <div className="container mx-auto mb-8 px-4 overflow-x-auto">
-            <div className="overflow-x-auto">
+          <div className="mb-8 px-4 overflow-x-auto">
             <input className="mb-8 border border-solid border-gray-400 py-3 pl-12 pr-4 w-96 max-w-full bg-search bg-no-repeat bg-left-1 text-sm" placeholder="Search" onKeyPress={event => {if (event.key === 'Enter') {searchBy(event.target.value);}}}/>
             <table className="block w-[600px] md:w-auto">
                 <thead className="block">
                     <tr className="grid grid-cols-4 text-left">
-                            <th className="p-2 border border-solid border-gray-300 border-b-0 border-r-0 text-center"><button className="flex w-full items-center justify-center hover:text-coral transition-all" value="Image" onClick={sortTable}>Image <TbArrowsDownUp className="ml-2"/></button></th>
-                            <th className="p-2 border border-solid border-gray-300 border-b-0 border-r-0 text-center"><button  className="flex w-full items-center justify-center hover:text-coral transition-all" value="Title" onClick={sortTable}>Title  <TbArrowsDownUp className="ml-2"/></button></th>
-                            <th className="p-2 border border-solid border-gray-300 border-b-0 text-center"><button  className="flex w-full items-center justify-center hover:text-coral transition-all" value="Description" onClick={sortTable}>Description  <TbArrowsDownUp className="ml-2"/></button></th>
+                            <th className="p-2 border border-solid border-gray-300 border-r-0 text-center"><button className="flex w-full items-center justify-center hover:text-coral transition-all" value="Image" onClick={sortTable}>Image <TbArrowsDownUp className="ml-2"/></button></th>
+                            <th className="p-2 border border-solid border-gray-300 border-r-0 text-center"><button  className="flex w-full items-center justify-center hover:text-coral transition-all" value="Title" onClick={sortTable}>Title  <TbArrowsDownUp className="ml-2"/></button></th>
+                            <th className="p-2 border border-solid border-gray-300 border-r-0 text-center"><button  className="flex w-full items-center justify-center hover:text-coral transition-all" value="Description" onClick={sortTable}>Description  <TbArrowsDownUp className="ml-2"/></button></th>
                             <th className="p-2 border border-solid border-gray-300 border-b-0 text-center">Edit/Delete</th>
                     </tr>
                 </thead>
@@ -112,13 +109,13 @@ export default function ArticlesTable() {
                                     })}
                                     </td>
                                 </>:                        
-                            <td className="p-2 border border-solid border-gray-300 border-r-0 break-all text-sm">{article.Image}</td>
+                            <td className="p-2 border border-solid border-gray-300 border-t-0 border-r-0 break-all text-sm">{article.Image}</td>
                             }
-                        <td className="p-2 border border-solid border-gray-300 border-r-0 break-all text-sm">{article.Title}</td>
-                        <td className="p-2 border border-solid border-gray-300 break-all text-sm">{article.Description}</td>
-                        <td className="p-2 border border-solid border-gray-300 break-all text-sm">
+                        <td className="p-2 border border-solid border-gray-300 border-t-0 border-r-0 break-all text-sm">{article.Title}</td>
+                        <td className="p-2 border border-solid border-gray-300 border-t-0 border-r-0 break-all text-sm">{article.Description}</td>
+                        <td className="p-2 border border-solid border-gray-300 border-t-0 break-all text-sm">
                           <button className="mr-2 hover:text-coral transition-all" onClick={() => setEditbox(article.key)}>Edit</button>/
-                          <button className="ml-2 hover:text-coral transition-all" onClick={() => deleteDoc(doc(db, "articles", article.key))}>Delete</button>                    
+                          <button className="ml-2 hover:text-coral transition-all" onClick={() => { if (window.confirm('Are you sure you wish to delete this item?'))deleteDoc(doc(db, "articles", article.key)); setUpdated(updated + 1);}}>Delete</button>                    
                         </td>
                         </tr>  
                         {editbox === article.key && 
@@ -130,10 +127,10 @@ export default function ArticlesTable() {
                         </>)
                     })}
             </tbody>
-            </table></div>
+            </table>
            
             {createbox === true ? 
-              <ArticleCreate setCreatebox={setCreatebox}/> :
+              <ArticleCreate setCreatebox={setCreatebox} setUpdated={setUpdated} updated={updated}/> :
               <button className="mt-8 mr-2 mb-2 py-2 px-8 bg-coral text-white font-medium text-sm uppercase text-center rounded-some transition-all hover:bg-black" onClick={() => setCreatebox(true)}>Create Article</button> 
             }
             </div> 
