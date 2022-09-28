@@ -10,11 +10,13 @@ import Shopping from "./components/shopping/Shopping";
 import FAQ from "./pages/FAQ";
 import LoginPage from "./pages/LoginPage";
 import RegistrationPage from "./pages/RegistrationPage";
-import AdminPage from "./pages/AdminPage";
+import AdminPage from "./pages/AdminPage/AdminPage";
 import ErrorPage from "./pages/ErrorPage";
 import PrivateRoutes from "./utilities/PrivateRoutes";
 import { AnimatePresence } from "framer-motion";
-
+import DangerZone from "./pages/AdminPage/DangerZone";
+import ArticlesAdministrationPage from "./pages/AdminPage/ArticlesAdministrationPage";
+import UserProfile from "./pages/AdminPage/UserProfile";
 function App() {
   const location = useLocation();
   return (
@@ -23,7 +25,14 @@ function App() {
       <AnimatePresence exitBeforeEnter>
         <Routes key={location.pathname} location={location}>
           <Route element={<PrivateRoutes />}>
-            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/admin" element={<AdminPage />}>
+              <Route path="/admin/userprofile" element={<UserProfile />} />
+              <Route
+                path="/admin/articlescontrol"
+                element={<ArticlesAdministrationPage />}
+              />
+              <Route path="/admin/dangerzone" element={<DangerZone />} />
+            </Route>
           </Route>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<RegistrationPage />} />

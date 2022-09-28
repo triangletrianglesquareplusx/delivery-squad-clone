@@ -1,10 +1,9 @@
 import { HiLightBulb } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 import ControlButton from "../utilities/ControlButton";
-//import { signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import auth from "../firebase/firebase-config";
+import { useDispatch } from "react-redux";
 import { loginUser } from "../features/authSlice";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -36,6 +35,7 @@ function LoginPage() {
     //   .catch((error) => {
     //     console.log(error);
     //   });
+    const auth = getAuth();
     const authObj = {
       auth: auth,
       emailUse: data.email,

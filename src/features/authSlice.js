@@ -6,7 +6,6 @@ import {
 const initialState = {
   userEmail: null,
   userUid: null,
-  isLoading: true,
   errorMessage: "",
   restaurants: [],
 };
@@ -14,19 +13,17 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ auth, emailUse, pass }, thunkAPI) => {
     const user = await signInWithEmailAndPassword(auth, emailUse, pass);
-    console.log(user);
     const { email: emailToken } = user.user;
-    console.log(emailToken);
     return emailToken;
   }
 );
 
 export const registerUser = createAsyncThunk(
   "auth/register",
-  async (auth, email, password) => {
-    const user = await createUserWithEmailAndPassword(auth, email, password);
-    console.log(user);
-    return user.currentUser;
+  async ({ auth, email, passReg }, thunkAPI) => {
+    const regUser = await createUserWithEmailAndPassword(auth, email, passReg);
+
+    return regUser.user;
   }
   //try catch
 );
@@ -38,12 +35,10 @@ export const authSlice = createSlice({
     clearCurrentUser(state) {
       state.userEmail = null;
       state.userUid = null;
-      state.isLoading = true;
       state.errorMessage = "";
       state.restaurants = [];
     },
     assignCurrentUser(state, action) {
-      state.isLoading = false;
       const { email, uid } = action.payload;
       state.userEmail = email;
       state.userUid = uid;
@@ -54,15 +49,14 @@ export const authSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(registerUser.fulfilled, (state, action) => {
-      state.isLoading = false;
+      console.log(action.payload);
+
       state.isError = false;
       state.isAchieved = true;
       state.userEmail = action.payload.email;
       state.userUid = action.payload.uid;
     });
-    builder.addCase(registerUser.pending, (state) => {
-      state.isLoading = true;
-    });
+    builder.addCase(registerUser.pending, (state) => {});
     builder.addCase(registerUser.rejected, (state) => {
       state.isAchieved = false;
       state.isError = true;
@@ -74,14 +68,10 @@ export const authSlice = createSlice({
       console.log(`${action.payload} we are in the case`);
 
       state.userEmail = action.payload;
-      state.isLoading = false;
     });
-    builder.addCase(loginUser.pending, (state) => {
-      state.isLoading = true;
-    });
+    builder.addCase(loginUser.pending, (state) => {});
     builder.addCase(loginUser.rejected, (state) => {
       state.message = "There was an error";
-      state.isLoading = false;
     });
   },
 });
