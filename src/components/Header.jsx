@@ -46,7 +46,7 @@ export default function Header() {
             className={`hidden md:inline md:px-6 md:py-3 md:font-medium hover:text-regalBlue`}
           />
         </Link>
-        <Link to="/articlestable">
+        <Link to="/faq">
           <ControlButton
             name={"FAQ"}
             className={`hidden md:inline md:px-6 md:py-3 md:font-medium hover:text-regalBlue`}

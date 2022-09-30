@@ -9,12 +9,12 @@ function OverViewSection() {
         alt="an awesome gradient graphic"
         className="object-fill"
       />*/}
-      <div className="flex flex-col self-center col-span-2 col-start-2 font-bold text-white md:col-start-3 lg:col-start-4">
+      <div className="flex flex-col self-center col-span-2 col-start-2 font-bold text-white md:col-start-3">
         <p>Take your atlas with you</p>
         <p>Download the app now!</p>
         <ControlButton
           name={"Download App"}
-          className={`px-6 py-2 whitespace-no-wrap bg-primaryRed rounded-lg shadow-md text-white text-sm font-medium font-inter min-w-3/12 my-2`}
+          className={`py-2 whitespace-no-wrap bg-primaryRed rounded-lg shadow-md text-white text-sm font-medium font-inter w-6/12`}
         />
       </div>
     </section>
