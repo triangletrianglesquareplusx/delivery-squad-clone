@@ -2,7 +2,7 @@ import React from "react";
 
 function ArticlesAdministrationPage() {
   return (
-    <div className="h-screen m-10 text-xl font-bold">
+    <div className="w-10/12 h-screen my-10 text-xl">
       ArticlesAdministrationPage
     </div>
   );

@@ -7,7 +7,7 @@ const initialState = {
   userEmail: null,
   userUid: null,
   errorMessage: "",
-  restaurants: [],
+  isError: false,
 };
 export const loginUser = createAsyncThunk(
   "auth/login",
@@ -22,8 +22,9 @@ export const registerUser = createAsyncThunk(
   "auth/register",
   async ({ auth, email, passReg }, thunkAPI) => {
     const regUser = await createUserWithEmailAndPassword(auth, email, passReg);
-
-    return regUser.user;
+    const obj = { uid: regUser.user.uid, email: regUser.user.email };
+    console.log(obj);
+    return obj;
   }
   //try catch
 );
@@ -52,13 +53,11 @@ export const authSlice = createSlice({
       console.log(action.payload);
 
       state.isError = false;
-      state.isAchieved = true;
       state.userEmail = action.payload.email;
       state.userUid = action.payload.uid;
     });
     builder.addCase(registerUser.pending, (state) => {});
     builder.addCase(registerUser.rejected, (state) => {
-      state.isAchieved = false;
       state.isError = true;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {

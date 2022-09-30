@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { getAuth, updateProfile } from "firebase/auth";
 import ControlButton from "../../utilities/ControlButton";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase/firebase-config";
 import { useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
+
 function UserProfile() {
   const auth = getAuth();
-  const { userEmail } = useSelector((state) => state.auth);
   const { register, handleSubmit, setValue } = useForm();
   setValue("displayName", auth.currentUser.displayName);
-  console.log(userEmail);
   const updateAllRegisteredProfileFields = async (data) => {
+    console.log("expensive $");
     try {
       if (auth.currentUser.displayName !== data.displayName) {
         await updateProfile(auth.currentUser, {
@@ -27,7 +26,7 @@ function UserProfile() {
     }
   };
   return (
-    <div className="h-screen m-10">
+    <div className="w-10/12 h-screen my-10">
       <header className="flex items-center justify-between">
         <p>
           You have authenticated! Welcome to your admin page{" "}
@@ -47,7 +46,7 @@ function UserProfile() {
           />
           <ControlButton
             name="Update"
-            className="w-1/12 px-6 py-3 text-white bg-blue-400 rounded-md shadow-xl hover:bg-blue-600"
+            className="w-2/12 px-5 text-white bg-blue-400 rounded-md shadow-xl hover:bg-blue-600"
           />
         </form>
       </main>

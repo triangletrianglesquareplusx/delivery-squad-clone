@@ -2,12 +2,8 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import ControlButton from "../utilities/ControlButton";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
+import { useNavigate, Link } from "react-router-dom";
+import { getAuth, updateProfile } from "firebase/auth";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase/firebase-config";
 import { ImEnter } from "react-icons/im";
@@ -18,7 +14,7 @@ import { registerUser } from "../features/authSlice";
 function RegistrationPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user, isLoading, isError, isAcheived, message } = useSelector(
+  const { userEmail, userUid, isError, messsage } = useSelector(
     (state) => state.auth
   );
   const rules = /\d+/;
@@ -53,9 +49,21 @@ function RegistrationPage() {
         email: data.emailRegister,
         passReg: data.passwordRegister,
       };
-      dispatch(registerUser(regObj)).then((result) => {
+      dispatch(registerUser(regObj)).then(async (result) => {
         console.log(result);
         if (result.type === "auth/register/fulfilled") {
+          const userTimestamp = serverTimestamp();
+          console.log(userTimestamp);
+          console.log(userUid);
+          // await setDoc(doc(db, "users", userUid), {
+          //   email: data.emailRegister,
+          //   displayName: data.displayName,
+          //   timeStamp: userTimestamp,
+          //   gender: data.gender,
+          // });
+          // await updateProfile(auth.currentUser, {
+          //   displayName: data.displayName,
+          // });
           navigate("/admin");
         } else {
           navigate("/error");
@@ -196,8 +204,13 @@ function RegistrationPage() {
                 {errors.passwordRegisterConfirm?.message}
               </p>
             </div>
+            <Link to="/login">
+              <p className="text-xs text-regalBlue">
+                Already registered? Login!
+              </p>
+            </Link>
             <ControlButton
-              name="Login"
+              name="Register"
               className="px-5 py-1 text-white rounded-md shadow-lg bg-regalBlue"
             />
           </form>
