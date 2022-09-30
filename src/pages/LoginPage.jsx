@@ -62,7 +62,7 @@ function LoginPage() {
         >
           <div className="flex justify-center gap-3 text-regalBlue">
             <HiLightBulb />
-            <p className="text-sm text-black">
+            <p className="text-sm text-black" title="greeter">
               Welcome back{" "}
               <span className="text-sm text-regalBlue">friend</span> - enter.
             </p>
@@ -72,6 +72,7 @@ function LoginPage() {
             <input
               {...register("email", { required: true })}
               className="p-2 bg-blue-200 rounded-lg outline-none"
+              data-testid="email-input"
             />
           </div>
           <p className="text-sm text-center">Password</p>
@@ -79,6 +80,7 @@ function LoginPage() {
             <input
               {...register("passwordRequired", { required: true })}
               className="p-2 bg-blue-200 rounded-lg outline-none"
+              data-testid="pass-input"
             />
             <p className="text-red-600 ">{errors.passwordRequired?.message}</p>
           </div>
