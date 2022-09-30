@@ -14,7 +14,9 @@ import { registerUser } from "../features/authSlice";
 function RegistrationPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const { userEmail, userUid, isError, messsage } = useSelector(
+
     (state) => state.auth
   );
   const rules = /\d+/;
@@ -64,6 +66,7 @@ function RegistrationPage() {
           // await updateProfile(auth.currentUser, {
           //   displayName: data.displayName,
           // });
+
           navigate("/admin");
         } else {
           navigate("/error");
@@ -204,6 +207,7 @@ function RegistrationPage() {
                 {errors.passwordRegisterConfirm?.message}
               </p>
             </div>
+
             <Link to="/login">
               <p className="text-xs text-regalBlue">
                 Already registered? Login!
@@ -211,6 +215,7 @@ function RegistrationPage() {
             </Link>
             <ControlButton
               name="Register"
+
               className="px-5 py-1 text-white rounded-md shadow-lg bg-regalBlue"
             />
           </form>

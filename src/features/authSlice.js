@@ -7,7 +7,9 @@ const initialState = {
   userEmail: null,
   userUid: null,
   errorMessage: "",
+
   isError: false,
+
 };
 export const loginUser = createAsyncThunk(
   "auth/login",
@@ -22,11 +24,12 @@ export const registerUser = createAsyncThunk(
   "auth/register",
   async ({ auth, email, passReg }, thunkAPI) => {
     const regUser = await createUserWithEmailAndPassword(auth, email, passReg);
+
     const obj = { uid: regUser.user.uid, email: regUser.user.email };
     console.log(obj);
     return obj;
   }
-  //try catch
+  
 );
 
 export const authSlice = createSlice({
@@ -51,7 +54,6 @@ export const authSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(registerUser.fulfilled, (state, action) => {
       console.log(action.payload);
-
       state.isError = false;
       state.userEmail = action.payload.email;
       state.userUid = action.payload.uid;

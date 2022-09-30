@@ -6,6 +6,7 @@ import ControlButton from "../../utilities/ControlButton";
 // import UserProfile from "./UserProfile";
 function AdminPage() {
   return (
+
     <div className="w-10/12 h-screen mx-auto my-10">
       <div className="flex flex-col gap-2 md:flex-row justify-left">
         <Link to="userprofile">
@@ -13,6 +14,7 @@ function AdminPage() {
             name="User Profile"
             className="p-5 text-xl font-bold shadow-lg rounded-xl"
           />
+
         </Link>
         <Link to="articlescontrol">
           <ControlButton
