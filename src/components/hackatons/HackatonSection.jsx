@@ -3,11 +3,12 @@ import HackatonCard from "./HackatonCard";
 
 function HackatonsSection() {
   return (
-    <section className="flex flex-col items-center w-10/12 gap-5 m-10 mx-auto">
+    <section className="flex flex-col items-center w-10/12 gap-8 m-10 mx-auto">
       <HackatonCard
         title="Hackatons to watch out for"
         arrowColor={`text-primaryRed`}
       />
+
       <HackatonCard
         title="Take a weekend off"
         className={`flex-row-reverse`}
