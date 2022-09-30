@@ -17,6 +17,7 @@ import { AnimatePresence } from "framer-motion";
 import DangerZone from "./pages/AdminPage/DangerZone";
 import ArticlesAdministrationPage from "./pages/AdminPage/ArticlesAdministrationPage";
 import UserProfile from "./pages/AdminPage/UserProfile";
+import ArticlesTable from "./components/articles/ArticlesTable";
 function App() {
   const location = useLocation();
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path="/restaurants" element={<RestaurantsFullPage />} />
           <Route path="/shopping" element={<Shopping />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/articlestable" element={<ArticlesTable />} />
           <Route path="/error" element={<ErrorPage />} />
         </Routes>
       </AnimatePresence>

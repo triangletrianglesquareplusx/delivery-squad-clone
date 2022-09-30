@@ -16,7 +16,6 @@ function RegistrationPage() {
   const dispatch = useDispatch();
 
   const { userEmail, userUid, isError, messsage } = useSelector(
-
     (state) => state.auth
   );
   const rules = /\d+/;
@@ -51,50 +50,11 @@ function RegistrationPage() {
         email: data.emailRegister,
         passReg: data.passwordRegister,
       };
-      dispatch(registerUser(regObj)).then(async (result) => {
-        console.log(result);
-        if (result.type === "auth/register/fulfilled") {
-          const userTimestamp = serverTimestamp();
-          console.log(userTimestamp);
-          console.log(userUid);
-          // await setDoc(doc(db, "users", userUid), {
-          //   email: data.emailRegister,
-          //   displayName: data.displayName,
-          //   timeStamp: userTimestamp,
-          //   gender: data.gender,
-          // });
-          // await updateProfile(auth.currentUser, {
-          //   displayName: data.displayName,
-          // });
-
-          navigate("/admin");
-        } else {
-          navigate("/error");
-        }
-      });
-      // const userCredentials = await createUserWithEmailAndPassword(
-      //   auth,
-      //   data.emailRegister,
-      //   data.passwordRegister
-      // );
-      //done till here
-      // const userTimestamp = serverTimestamp();
-      // const uid = userCredentials.user.uid;
-
-      // await setDoc(doc(db, "users", uid), {
-      //   email: data.emailRegister,
-      //   displayName: data.displayName,
-      //   timeStamp: userTimestamp,
-      //   gender: data.gender,
-      // });
-
-      // await updateProfile(auth.currentUser, {
-      //   displayName: data.displayName,
-      // });
-
-      // navigate("/admin");
+      const result = await dispatch(registerUser(regObj));
+      console.log(result);
+      navigate("/admin");
     } catch (error) {
-      console.log(error);
+      navigate("/error");
     }
   };
 
@@ -215,7 +175,6 @@ function RegistrationPage() {
             </Link>
             <ControlButton
               name="Register"
-
               className="px-5 py-1 text-white rounded-md shadow-lg bg-regalBlue"
             />
           </form>

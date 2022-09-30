@@ -10,8 +10,6 @@ function UserProfile() {
   const { register, handleSubmit, setValue } = useForm();
   setValue("displayName", auth.currentUser.displayName);
   const updateAllRegisteredProfileFields = async (data) => {
-    console.log("expensive $");
-
     try {
       if (auth.currentUser.displayName !== data.displayName) {
         await updateProfile(auth.currentUser, {
@@ -27,9 +25,7 @@ function UserProfile() {
     }
   };
   return (
-
     <div className="w-10/12 h-screen my-10">
-
       <header className="flex items-center justify-between">
         <p>
           You have authenticated! Welcome to your admin page{" "}

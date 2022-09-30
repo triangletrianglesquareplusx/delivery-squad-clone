@@ -9,7 +9,6 @@ const initialState = {
   errorMessage: "",
 
   isError: false,
-
 };
 export const loginUser = createAsyncThunk(
   "auth/login",
@@ -26,10 +25,8 @@ export const registerUser = createAsyncThunk(
     const regUser = await createUserWithEmailAndPassword(auth, email, passReg);
 
     const obj = { uid: regUser.user.uid, email: regUser.user.email };
-    console.log(obj);
     return obj;
   }
-  
 );
 
 export const authSlice = createSlice({
