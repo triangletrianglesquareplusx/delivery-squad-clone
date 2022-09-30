@@ -62,7 +62,9 @@ export default function Header() {
         ) : (
           <ControlButton
             name={"Login"}
-            className={`hidden md:inline md:px-6 md:py-3 md:font-medium hover:text-regalBlue`}
+
+            className={`px-6 py-3 mx-4 shadow-lg rounded-lg md:font-medium hover:text-regalBlue md:rounded-none md:shadow-none`}
+
             onClick={logIn}
           />
         )}

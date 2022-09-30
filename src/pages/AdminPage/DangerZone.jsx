@@ -1,7 +1,8 @@
 import React from "react";
 
 function DangerZone() {
-  return <div className="h-screen m-10 font-bold">DangerZone</div>;
+ return <div className="w-10/12 h-screen my-10 font-bold">DangerZone</div>;
+
 }
 
 export default DangerZone;
